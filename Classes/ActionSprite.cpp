@@ -79,13 +79,15 @@ change_state_failed:
 
 Animation *ActionSprite::createAnimation(const char *fmt, int count, float fps)
 {
-    Array *frames = Array::createWithCapacity(count);
+	Vector<SpriteFrame*> frames(count);
+    //Array *frames = Array::createWithCapacity(count);
     int i = 0;
 
     for (i = 0; i < count; i++) {
         const char *png = String::createWithFormat(fmt, i)->getCString();
         SpriteFrame *frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(png);
-        frames->addObject(frame);
+        //frames->addObject(frame);
+		frames.pushBack(frame);
     }
 
     return Animation::createWithSpriteFrames(frames, 1 / fps);

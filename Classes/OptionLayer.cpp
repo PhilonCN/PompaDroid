@@ -24,19 +24,34 @@ bool OptionLayer::init()
 
         setTouchEnabled(true);
 
+		EventDispatcher* dispatcher = Director::getInstance()->getEventDispatcher();
+		EventListenerTouchAllAtOnce* listener = EventListenerTouchAllAtOnce::create();
+		listener->onTouchesBegan = CC_CALLBACK_2(OptionLayer::TouchesBegan, this);
+		listener->onTouchesMoved = CC_CALLBACK_2(OptionLayer::TouchesMoved, this);		
+		listener->onTouchesEnded = CC_CALLBACK_2(OptionLayer::TouchesEnded, this);
+
+		dispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+
         ret = true;
     } while(0);
 
     return ret;
 }
 
-void OptionLayer::ccTouchesBegan(Set *ts, Event *e)
+//void OptionLayer::ccTouchesBegan(Set *ts, Event *e)	
+void OptionLayer::TouchesBegan(const std::vector<Touch*>& ts, Event* event)
 {
     Size winSize = Director::getInstance()->getWinSize();
+	/*
     SetIterator iter = ts->begin();
 
     while (iter != ts->end()) {
         Touch *t = (Touch*)(*iter);
+		*/
+	int iter = 0;
+	
+    while (iter < ts.size()) {
+        Touch *t = (Touch*)ts[iter];		
         Point p = t->getLocation();
         // left，当触控操作的起点小于屏幕宽度的一半，说明触控发生在左屏
         if (p.x <= winSize.width / 2) {
@@ -50,11 +65,15 @@ void OptionLayer::ccTouchesBegan(Set *ts, Event *e)
     }
 }
 
-void OptionLayer::ccTouchesMoved(Set *ts, Event *e)
+//void OptionLayer::ccTouchesMoved(Set *ts, Event *e)
+void OptionLayer::TouchesMoved(const std::vector<Touch*>& ts, Event* event)
 {
     Size winSize = Director::getInstance()->getWinSize();
+	/*
     SetIterator iter = ts->begin();
     Touch *t = (Touch*)(*iter);
+	*/
+	Touch *t = (Touch*)ts[0];
     Point start = t->getStartLocation();
 
     // 如果该触控的起点是右屏产生的，则不做“滑动”处理
@@ -72,7 +91,8 @@ void OptionLayer::ccTouchesMoved(Set *ts, Event *e)
     _delegator->onWalk(direction, distance);
 }
 
-void OptionLayer::ccTouchesEnded(Set *ts, Event *e)
+//void OptionLayer::ccTouchesEnded(Set *ts, Event *e)
+void OptionLayer::TouchesEnded(const std::vector<Touch*>& ts, Event* event)
 {
     if (_joystick_bg->isVisible()) {
         _inactivityJoystick();
