@@ -4,6 +4,8 @@
 
 #include "cocos2d.h"
 
+USING_NS_CC;
+
 class OptionDelegate
 {
 public:
@@ -25,9 +27,14 @@ public:
     CREATE_FUNC(OptionLayer);
 
     // 触控的三个事件函数重载
+	/*
     void ccTouchesBegan(cocos2d::Set *ts, cocos2d::Event *e);
     void ccTouchesMoved(cocos2d::Set *ts, cocos2d::Event *e);
     void ccTouchesEnded(cocos2d::Set *ts, cocos2d::Event *e);
+	*/
+	void TouchesBegan(const std::vector<Touch*>&, Event*);
+	void TouchesMoved(const std::vector<Touch*>&, Event*);
+	void TouchesEnded(const std::vector<Touch*>&, Event*);
 
     // 委托者
     CC_SYNTHESIZE(OptionDelegate*, _delegator, Delegator);

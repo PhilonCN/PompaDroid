@@ -1,6 +1,6 @@
 #include "main.h"
 #include "AppDelegate.h"
-#include "CCEGLView.h"
+//#include "CCEGLView.h"
 
 USING_NS_CC;
 
@@ -14,8 +14,12 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
     // create the application instance
     AppDelegate app;
+	/*
     EGLView* eglView = EGLView::getInstance();
     eglView->setViewName("PompaDroid");
     eglView->setFrameSize(480, 320);
+	*/
+    EGLView eglView;
+    eglView.init("PompaDroid",480,320);	
     return Application::getInstance()->run();
 }
